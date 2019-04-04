@@ -173,6 +173,9 @@ def inject_name(email_text, name):
     altered_email_text = re.sub(NAME_PATTERN, name, email_text)
     return altered_email_text
 
+def striphtml(data):
+    p = re.compile(r'<.*?>')
+    return p.sub('', data)
 
 def delay_send():
     sleep_time = random.randint(1, 55) + (60*5)
@@ -264,7 +267,7 @@ if __name__ == "__main__":
             else:
                 msg.attach(MIMEText(email_text, 'html', 'utf-8'))
 
-            msg.attach(MIMEText(email_text, 'plain'))
+            msg.attach(MIMEText(striphtml(email_text), 'plain'))
 
             if args.attachment_filename is not None:
 
