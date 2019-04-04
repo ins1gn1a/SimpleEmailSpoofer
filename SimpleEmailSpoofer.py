@@ -17,7 +17,7 @@ from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email.mime.base import MIMEBase
 from email import encoders
-
+from email import utils
 from libs.PrettyOutput import *
 
 global db
@@ -240,6 +240,9 @@ if __name__ == "__main__":
             output_info("Setting Subject header to: " + args.subject)
             msg["Subject"] = args.subject
 
+        # Date
+        msg['Date'] = utils.formatdate(localtime = True)
+            
         if args.important:
             msg['X-Priority'] = '2'
 
@@ -260,6 +263,8 @@ if __name__ == "__main__":
                 msg.attach(MIMEText(altered_email_text, 'html', 'utf-8'))
             else:
                 msg.attach(MIMEText(email_text, 'html', 'utf-8'))
+
+            msg.attach(MIMEText(email_text, 'plain'))
 
             if args.attachment_filename is not None:
 
